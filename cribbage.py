@@ -87,6 +87,7 @@ def player_select_crib(hand, crib_player):
     print "crib."
     print_hand(hand, True)
     while len(crib_cards) < 2:
+        # from https://docs.python.org/2/tutorial/errors.html
         try:
             card = int(raw_input("Please select a card (1-6) to put in your crib."))
             if card <= 0 or card > 6:
