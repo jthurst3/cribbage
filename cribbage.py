@@ -5,35 +5,8 @@
 # 21 December 2015
 
 import random
+import os
 
-class Card(object):
-    def __init__(self, number, suit):
-        self.number = number
-        self.suit = suit
-        self.name = str(number)
-        if number == 11:
-            self.name = "Jack"
-        elif number == 12:
-            self.name = "Queen"
-        elif number == 13:
-            self.name = "King"
-        elif number == 1:
-            self.name = "Ace"
-        self.value = max(number, 10)
-
-    def __str__(self):
-        return self.name + " of " + self.suit
-
-
-def initialize_deck():
-    suits = ['Clubs', 'Spades', 'Diamonds', 'Hearts']
-    deck = []
-    for suit in suits:
-        for num in range(1, 14):
-            deck.append(Card(num, suit))
-    return deck
-        
-deck = initialize_deck()
 
 # decide whether the game is over
 def game_over(score):
@@ -58,9 +31,9 @@ def turn(score, crib_player):
     # show the top card on the deck
     show_top_card(top_card)
     # interactively play the cards
-    play_cards_interactive(hands, score)
+    play_cards_interactive(hands, crib_player, score)
     # score the hands
-    score_hands_interactive(hands, score)
+    score_hands_interactive(hands, crib_player, score)
     # show the score at the end of the turn
     print_score(score)
 
@@ -105,18 +78,6 @@ def select_crib(hand, crib_player):
     # stub
     return [hand[0], hand[1]]
 
-# prints out a player's hand
-# if the second argument is True, numbers the cards from 1-n
-def print_hand(hand, numbered):
-    n = 1
-    print_str = ""
-    for card in hand:
-        if numbered:
-            print_str += "("+str(n)+") "
-        print_str += str(card) + "   "
-        n += 1
-    print print_str
-
 def show_top_card(top_card):
     print "top card is: " + str(top_card)
 
@@ -125,11 +86,22 @@ def print_score(score):
     print "Score... YOU: " + str(score[0]) + " - " + str(score[1]) + " :COMPUTER"
 
 # plays cards interactively
-def play_cards_interactive(hands, score):
-    pass
+def play_cards_interactive(hands, crib_player, score):
+    count = 0
+    # the person who doesn't have the crib starts
+    player = (crib_player+1)%2
+    # keep track of fifteens, pairs, three+four of a kinds, and runs
+    table_cards = []
+    while len(table_cards) < 8:
+        if player == 0:
+            prompt_user_play_cards(hands[0], table_cards, score, count)
+        else:
+            computer_play_cards(hands[1], table_cards, score, count)
+        player = (player+1)%2
+
 
 # scores the hands
-def score_hands_interactive(hands, score):
+def score_hands_interactive(hands, crib_player, score):
     pass
 
 
