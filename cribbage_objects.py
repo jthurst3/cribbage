@@ -249,7 +249,7 @@ class Table(object):
             self.declare_go()
         else:
             # otherwise, pick a random card and play it
-            self.play_card(self.hands[1].cards[0])
+            self.play_card(playable_cards[0])
 
     def get_playable_cards(self, hand):
         # returns a subset of the cards that are allowed to be played, given the count
